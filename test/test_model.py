@@ -32,3 +32,10 @@ class ModelDataTest(unittest.TestCase):
 
         self.assertEqual(len(communciation_network.vertices()), 37103)
         self.assertEqual(len(communciation_network.hyperedges()), 309740)
+
+        self.assertEqual(len(communciation_network.participants()), len(communciation_network.vertices()))
+
+class ModelDataTest2(unittest.TestCase):
+    def test_model_with_data(self):
+        communciation_network = CommunicationNetwork.from_json('./data/networks/testDataNetworks.json')
+        self.assertEqual(len(communciation_network.participants()), 4)
