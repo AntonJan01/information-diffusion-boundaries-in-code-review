@@ -64,29 +64,29 @@ class ModelTestBasics(unittest.TestCase):
 
 class ModelTestBadContent(unittest.TestCase):
     
-    # def test_verifie_data_validation_of_vertice_with_stringItem(self):
-    #     with self.assertRaises(Exception):
-    #         CommunicationNetwork({'h1': 'v1'}, { 'h1': 1})
+    def test_verifie_data_validation_of_vertice_with_stringItem(self):
+        with self.assertRaises(Exception):
+            CommunicationNetwork({'h1': 'v1'}, { 'h1': 1})
 
-    # def test_verifie_data_validation_of_vertice_with_empty_dictItem(self):
-    #     with self.assertRaises(Exception):
-    #         CommunicationNetwork({'h1': {}}, { 'h1': 1})
+    def test_verifie_data_validation_of_vertice_with_empty_dictItem(self):
+        with self.assertRaises(Exception):
+            CommunicationNetwork({'h1': {}}, { 'h1': 1})
     
     def test_verifie_data_validation_of_vertice_with_no_item(self):
         with self.assertRaises(AttributeError):
             CommunicationNetwork({'h1'}, { 'h1': 1})
     
-    # def test_verifie_data_validation_of_vertice_with_empty_dict(self):
-    #     with self.assertRaises(Exception):
-    #         CommunicationNetwork({}, { 'h1': 1})
+    def test_verifie_data_validation_of_vertice_with_empty_dict(self):
+        with self.assertRaises(Exception):
+            CommunicationNetwork({}, { 'h1': 1})
     
-    # def test_verifie_data_validation_of_empty_timings(self):
-    #     with self.assertRaises(Exception):
-    #         CommunicationNetwork({'h1':['v1']},{})
+    def test_verifie_data_validation_of_empty_timings(self):
+        with self.assertRaises(Exception):
+            CommunicationNetwork({'h1':['v1']},{})
 
-    # def test_verifie_data_validation_of_extra_timings(self):
-    #     with self.assertRaises(Exception):
-    #         CommunicationNetwork({'h1':['v1']},{'h1': 1, 'h2': 2})
+    def test_verifie_data_validation_of_extra_timings(self):
+        with self.assertRaises(Exception):
+            CommunicationNetwork({'h1':['v1']},{'h1': 1, 'h2': 2})
 
     def test_verifie_data_validation_of_double_hedge(self):
             cn = CommunicationNetwork({'h1': ['v1'], 'h1': ['v2']}, { 'h1': 1})
@@ -133,11 +133,11 @@ class ModelParsFromJson(unittest.TestCase):
             with self.assertRaises(ValueError):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
 
-    # def test_from_json_double_end(self):
-    #     fakeResponse = '{"Review_1":{ "end":"2023-05-26T12:01:01","end":"2023-05-26T09:01:01", "participants": ["Anton","Simon"]}}'
-    #     with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
-    #         with self.assertRaises(Exception):
-    #             CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
+    def test_from_json_double_end(self):
+        fakeResponse = '{"Review_1":{ "end":"2023-05-26T12:01:01","end":"2023-05-26T09:01:01", "participants": ["Anton","Simon"]}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+            with self.assertRaises(Exception):
+                CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
 
 
 class ModelParsFromJsonBz2(unittest.TestCase):
@@ -155,14 +155,14 @@ class ModelParsFromJsonBz2(unittest.TestCase):
             with self.assertRaises(Exception):
                 CommunicationNetwork.from_json("fakePath.json.bz2", name= "mockedOpen")          
 
-# class ModelDataTest(unittest.TestCase):
-#     def test_model_with_data(self):
-#         communciation_network = CommunicationNetwork.from_json('./data/networks/microsoft.json.bz2')
-#         self.assertEqual(len(communciation_network.participants()), 37103)
-#         self.assertEqual(len(communciation_network.channels()), 309740)
+class ModelDataTest(unittest.TestCase):
+    def test_model_with_data(self):
+        communciation_network = CommunicationNetwork.from_json('./data/networks/microsoft.json.bz2')
+        self.assertEqual(len(communciation_network.participants()), 37103)
+        self.assertEqual(len(communciation_network.channels()), 309740)
 
-#         self.assertEqual(len(communciation_network.vertices()), 37103)
-#         self.assertEqual(len(communciation_network.hyperedges()), 309740)
+        self.assertEqual(len(communciation_network.vertices()), 37103)
+        self.assertEqual(len(communciation_network.hyperedges()), 309740)
 
-#         self.assertEqual(len(communciation_network.participants()), len(communciation_network.vertices()))
+        self.assertEqual(len(communciation_network.participants()), len(communciation_network.vertices()))
 
