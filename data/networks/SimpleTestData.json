@@ -1,0 +1,110 @@
+{
+    "a": {
+        "bound": "right_bounded",
+        "end": "2020-02-05T12:49:39",
+        "participants": [
+            1,
+            2,
+            3
+        ],
+        "start": "2020-02-04T07:10:58"
+    },
+    "b": {
+        "bound": "bounded",
+        "end": "2020-02-07T12:02:50",
+        "participants": [
+            5,
+            6,
+            7
+        ],
+        "start": "2020-02-06T10:03:41"
+    },
+    "c": {
+        "bound": "bounded",
+        "end": "2020-02-09T15:01:25",
+        "participants": [
+            1,
+            4,
+            7
+        ],
+        "start": "2020-02-08T17:02:11"
+    },
+    "d": {
+        "bound": "bounded",
+        "end": "2020-02-11T15:01:25",
+        "participants": [
+            3,
+            6,
+            8
+        ],
+        "start": "2020-02-10T17:02:11"
+    },
+    "e": {
+        "bound": "bounded",
+        "end": "2020-02-13T15:01:25",
+        "participants": [
+            6,
+            7,
+            8
+        ],
+        "start": "2020-02-12T17:02:11"
+    },
+    "f": {
+        "bound": "bounded",
+        "end": "2020-02-15T15:01:25",
+        "participants": [
+            1,
+            6,
+            5
+        ],
+        "start": "2020-02-14T17:02:11"
+    },
+    "g": {
+        "bound": "bounded",
+        "end": "2020-02-17T15:01:25",
+        "participants": [
+            2,
+            3,
+            4
+        ],
+        "start": "2020-02-16T17:02:11"
+    },
+    "h": {
+        "bound": "bounded",
+        "end": "2020-02-19T15:01:25",
+        "participants": [
+            5,
+            7,
+            3
+        ],
+        "start": "2020-02-18T17:02:11"
+    },
+    "i": {
+        "bound": "bounded",
+        "end": "2020-02-21T15:01:25",
+        "participants": [
+            7,
+            7,
+            7
+        ],
+        "start": "2020-02-20T17:02:11"
+    },
+    "j": {
+        "bound": "bounded",
+        "end": "2020-02-23T15:01:25",
+        "participants": [
+            9,
+            2,
+            10
+        ],
+        "start": "2020-02-22T17:02:11"
+    },
+    "k": {
+        "bound": "bounded",
+        "end": "2020-02-25T15:01:25",
+        "participants": [
+            11
+        ],
+        "start": "2020-02-24T17:02:11"
+    }
+}
