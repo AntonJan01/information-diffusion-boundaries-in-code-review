@@ -166,3 +166,23 @@ class ModelDataTest(unittest.TestCase):
 
         self.assertEqual(len(communciation_network.participants()), len(communciation_network.vertices()))
 
+class MinimalPathExceptionHandeling(unittest.TestCase):
+
+    def test_minimal_path_unknown_vertice(self):
+        cn = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
+
+        with self.assertRaises(Exception):
+            single_source_dijkstra_vertices(cn, 'v5', DistanceType.SHORTEST, min_timing=0)
+
+        with self.assertRaises(Exception):
+            single_source_dijkstra_hyperedges(cn, 'v5', DistanceType.SHORTEST, min_timing=0)
+
+
+    def test_minimal_path_unknown_distanceType(self):
+        cn = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
+
+        with self.assertRaises(UnboundLocalError):
+            single_source_dijkstra_vertices(cn, 'v1', DistanceType, min_timing=0)
+
+        with self.assertRaises(UnboundLocalError):
+            single_source_dijkstra_hyperedges(cn, 'v1', DistanceType, min_timing=0)
