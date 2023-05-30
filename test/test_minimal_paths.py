@@ -38,7 +38,8 @@ class MinimalPath(unittest.TestCase):
     
     def test_same_timings(self):
         cn = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 1, 'h3': 1})
-        self.assertEqual(single_source_dijkstra_vertices(MinimalPath.cn, 'v1', DistanceType.SHORTEST, min_timing=0), {'v2':1}) 
+        with self.assertRaises(Exception):
+            self.assertEqual(single_source_dijkstra_vertices(cn, 'v1', DistanceType.SHORTEST, min_timing=0), {'v2':1}) 
         #single_source_dijkstra_hyperedges(MinimalPath.cn, 'v1', DistanceType.SHORTEST, min_timing=0)
 
 class MinimalPathExceptionHandeling(unittest.TestCase):
@@ -62,22 +63,30 @@ class MinimalPathExceptionHandeling(unittest.TestCase):
         with self.assertRaises(UnboundLocalError):
             single_source_dijkstra_hyperedges(cn, 'v1', DistanceType, min_timing=0)
     
-    def test_minimal_path_weird_timing(self):
-        cn = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
-
-        single_source_dijkstra_vertices(cn, 'v1', DistanceType.SHORTEST, min_timing='a')
-        
-        single_source_dijkstra_hyperedges(cn, 'v1', DistanceType.SHORTEST, min_timing='e')
-
-        single_source_dijkstra_vertices(cn, 'v1', DistanceType.SHORTEST, min_timing=[])
-
-        single_source_dijkstra_vertices(cn, 'v1', DistanceType.SHORTEST, min_timing={})
-
-        single_source_dijkstra_vertices(cn, 'v1', DistanceType.FASTEST, min_timing=0.2353535)
-
-        single_source_dijkstra_hyperedges(cn, 'v2', DistanceType.FASTEST, min_timing=0.2325253262)
-
-        single_source_dijkstra_vertices(cn, 'v1', DistanceType.FOREMOST, min_timing=0.2353535)
+class TestWeirdTimings(unittest.TestCase):
+    cn = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
+    def letter_vertice(self):
+        with self.assertRaises(Exception):
+            single_source_dijkstra_vertices(TestWeirdTimings.cn, 'v1', DistanceType.SHORTEST, min_timing='a')
+    def letter_hyperedges(self):
+        with self.assertRaises(Exception):
+            single_source_dijkstra_hyperedges(TestWeirdTimings.cn, 'v1', DistanceType.SHORTEST, min_timing='e')
+    def list_verice(self):
+        with self.assertRaises(Exception):
+            single_source_dijkstra_vertices(TestWeirdTimings.cn, 'v1', DistanceType.SHORTEST, min_timing=[])
+    def list_hyperedge(self):
+        with self.assertRaises(Exception):
+            single_source_dijkstra_vertices(TestWeirdTimings.cn, 'v1', DistanceType.SHORTEST, min_timing={})
+    def float_vertice(self):
+        with self.assertRaises(Exception):
+            single_source_dijkstra_vertices(TestWeirdTimings.cn, 'v1', DistanceType.FASTEST, min_timing=0.2353535)
+    def float_hyperedge(self):
+        with self.assertRaises(Exception):
+            single_source_dijkstra_hyperedges(TestWeirdTimings.cn, 'v2', DistanceType.FASTEST, min_timing=0.2325253262)
+    def float_fore_vertice(self):
+        single_source_dijkstra_vertices(TestWeirdTimings.cn, 'v1', DistanceType.FOREMOST, min_timing=0.2353535)
+        with self.assertRaises(Exception):
+            single_source_dijkstra_vertices(TestWeirdTimings.cn, 'v1', DistanceType.FOREMOST, min_timing=0.2353535)
             
 class TestOwnFile(unittest.TestCase):
     cn = CommunicationNetwork.from_json('./data/networks/SimpleTestData.json')
