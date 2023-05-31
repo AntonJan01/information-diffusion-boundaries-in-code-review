@@ -9,77 +9,77 @@ from simulation.model import EntityNotFound
 
 class ModelTest(unittest.TestCase):
 
-    cn = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
+    communication_network = CommunicationNetwork({'h1': ['v1', 'v2'], 'h2': ['v2', 'v3'], 'h3': ['v3', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
 
     def test_vertices(self):
-        self.assertEqual(len(ModelTest.cn.vertices()), 4)
-        self.assertEqual(ModelTest.cn.vertices('h1'), {'v1', 'v2'})
+        self.assertEqual(len(ModelTest.communication_network.vertices()), 4)
+        self.assertEqual(ModelTest.communication_network.vertices('h1'), {'v1', 'v2'})
 
     def test_hyperedges(self):
-        self.assertEqual(len(ModelTest.cn.hyperedges()), 3)
-        self.assertEqual(ModelTest.cn.hyperedges('v1'), {'h1'})
+        self.assertEqual(len(ModelTest.communication_network.hyperedges()), 3)
+        self.assertEqual(ModelTest.communication_network.hyperedges('v1'), {'h1'})
 
 class ModelTestBasics(unittest.TestCase):
-    cn = CommunicationNetwork({'h1': ['v1', 'v1'], 'h2': ['v2', 'v3','v4','v5','v6'], 'h3': ['v1', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
+    communication_network = CommunicationNetwork({'h1': ['v1', 'v1'], 'h2': ['v2', 'v3','v4','v5','v6'], 'h3': ['v1', 'v4']}, {'h1': 1, 'h2': 2, 'h3': 3})
 
     def test_vertices(self):
-        self.assertEqual(len(ModelTestBasics.cn.vertices()), 6)
-        self.assertEqual(ModelTestBasics.cn.vertices(),{'v1','v2', 'v3','v4','v5','v6'})
-        self.assertEqual(ModelTestBasics.cn.vertices(),{'v1','v1','v2', 'v3','v4','v5','v6'})
-        self.assertEqual(ModelTestBasics.cn.vertices('h1'),{'v1','v1'})
-        self.assertEqual(ModelTestBasics.cn.vertices('h1'),{'v1'})
-        self.assertEqual(ModelTestBasics.cn.vertices('h2'),{'v2', 'v3','v4','v5','v6'})
-    
+        self.assertEqual(len(ModelTestBasics.communication_network.vertices()), 6)
+        self.assertEqual(ModelTestBasics.communication_network.vertices(),{'v1','v2', 'v3','v4','v5','v6'})
+        self.assertEqual(ModelTestBasics.communication_network.vertices(),{'v1','v1','v2', 'v3','v4','v5','v6'})
+        self.assertEqual(ModelTestBasics.communication_network.vertices('h1'),{'v1','v1'})
+        self.assertEqual(ModelTestBasics.communication_network.vertices('h1'),{'v1'})
+        self.assertEqual(ModelTestBasics.communication_network.vertices('h2'),{'v2', 'v3','v4','v5','v6'})
+
     def test_vertices_unknown_hedge(self):
         with self.assertRaises(EntityNotFound):
-            ModelTestBasics.cn.vertices('Unknown_hedge')
+            ModelTestBasics.communication_network.vertices('Unknown_hedge')
 
     def test_vertices_equal_participants(self):
-        self.assertEqual(len(ModelTestBasics.cn.vertices()),len(ModelTestBasics.cn.participants()))
-        self.assertEqual(ModelTestBasics.cn.vertices(),ModelTestBasics.cn.participants())
+        self.assertEqual(len(ModelTestBasics.communication_network.vertices()),len(ModelTestBasics.communication_network.participants()))
+        self.assertEqual(ModelTestBasics.communication_network.vertices(),ModelTestBasics.communication_network.participants())
 
-    
+
     def test_hyperedges(self):
-        self.assertEqual(len(ModelTestBasics.cn.hyperedges()), 3)
-        self.assertEqual(ModelTestBasics.cn.hyperedges('v1'),{'h1','h3'})
-        self.assertEqual(ModelTestBasics.cn.hyperedges('v2'),{'h2'})
+        self.assertEqual(len(ModelTestBasics.communication_network.hyperedges()), 3)
+        self.assertEqual(ModelTestBasics.communication_network.hyperedges('v1'),{'h1','h3'})
+        self.assertEqual(ModelTestBasics.communication_network.hyperedges('v2'),{'h2'})
 
     def test_hyperedges_unknown_vertic(self):
         with self.assertRaises(EntityNotFound):
-            ModelTestBasics.cn.hyperedges('Unknown_vertic')
+            ModelTestBasics.communication_network.hyperedges('Unknown_vertic')
 
     def test_hyperedges_equal_channels(self):
-        self.assertEqual(len(ModelTestBasics.cn.hyperedges()),len(ModelTestBasics.cn.channels()))
-        self.assertEqual(ModelTestBasics.cn.hyperedges(),ModelTestBasics.cn.channels())
+        self.assertEqual(len(ModelTestBasics.communication_network.hyperedges()),len(ModelTestBasics.communication_network.channels()))
+        self.assertEqual(ModelTestBasics.communication_network.hyperedges(),ModelTestBasics.communication_network.channels())
 
 
     def test_timings(self):
-        self.assertEqual(ModelTestBasics.cn.timings(),{'h1': 1, 'h2': 2, 'h3': 3})
-        self.assertEqual(ModelTestBasics.cn.timings('h1'), 1)
+        self.assertEqual(ModelTestBasics.communication_network.timings(),{'h1': 1, 'h2': 2, 'h3': 3})
+        self.assertEqual(ModelTestBasics.communication_network.timings('h1'), 1)
 
     def test_timings_unknown_hedge(self):
         with self.assertRaises(KeyError):
-            ModelTestBasics.cn.timings('Unknown_hedge')
+            ModelTestBasics.communication_network.timings('Unknown_hedge')
 
 
 class ModelTestBadContent(unittest.TestCase):
-    
-    def test_verifie_data_validation_of_vertice_with_stringItem(self):
+
+    def test_verifie_data_validation_of_vertice_with_string_item(self):
         with self.assertRaises(Exception):
             CommunicationNetwork({'h1': 'v1'}, { 'h1': 1})
 
-    def test_verifie_data_validation_of_vertice_with_empty_dictItem(self):
+    def test_verifie_data_validation_of_vertice_with_empty_dict_item(self):
         with self.assertRaises(Exception):
             CommunicationNetwork({'h1': {}}, { 'h1': 1})
-    
+
     def test_verifie_data_validation_of_vertice_with_no_item(self):
         with self.assertRaises(AttributeError):
             CommunicationNetwork({'h1'}, { 'h1': 1})
-    
+
     def test_verifie_data_validation_of_vertice_with_empty_dict(self):
         with self.assertRaises(Exception):
             CommunicationNetwork({}, { 'h1': 1})
-    
+
     def test_verifie_data_validation_of_empty_timings(self):
         with self.assertRaises(Exception):
             CommunicationNetwork({'h1':['v1']},{})
@@ -89,71 +89,71 @@ class ModelTestBadContent(unittest.TestCase):
             CommunicationNetwork({'h1':['v1']},{'h1': 1, 'h2': 2})
 
     def test_verifie_data_validation_of_double_hedge(self):
-            cn = CommunicationNetwork({'h1': ['v1'], 'h1': ['v2']}, { 'h1': 1})
-            self.assertEqual(cn.vertices('h1'),{'v2'})
+        communication_network = CommunicationNetwork({'h1': ['v1'], 'h1': ['v2']}, { 'h1': 1})
+        self.assertEqual(communication_network.vertices('h1'),{'v2'})
 
 class ModelParsFromJson(unittest.TestCase):
     def test_from_json(self):
-        fakeResponse = '{"Review_1":{"bound": "bounded", "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = '{"Review_1":{"bound": "bounded", "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             result = CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
             self.assertEqual(result.participants('Review_1'),{'Anton','Simon'})
             self.assertEqual(result.timings('Review_1'), datetime.fromisoformat("2023-05-26T12:01:01"))
             self.assertEqual(result.name,'mockedOpen')
 
     def test_from_json_missing_non_importent(self):
-        fakeResponse = '{"Review_1":{ "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"]}}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = '{"Review_1":{ "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"]}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             result = CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
             self.assertEqual(result.participants('Review_1'),{'Anton','Simon'})
             self.assertEqual(result.timings('Review_1'), datetime.fromisoformat("2023-05-26T12:01:01"))
             self.assertEqual(result.name,'mockedOpen')
-    
+
     def test_from_json_missing_end(self):
-        fakeResponse = '{"Review_1":{"bound": "bounded", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = '{"Review_1":{"bound": "bounded", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             with self.assertRaises(KeyError):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
-    
+
     def test_from_json_missing_participants(self):
-        fakeResponse = '{"Review_1":{ "end":"2023-05-26T12:01:01"}}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = '{"Review_1":{ "end":"2023-05-26T12:01:01"}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             with self.assertRaises(KeyError):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
 
     def test_from_json_missing_channel(self):
-        fakeResponse = '{"end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"]}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = '{"end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"]}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             with self.assertRaises(Exception):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
 
     def test_from_json_not_isoformat(self):
-        fakeResponse = '{"Review_1":{ "end":"2023/05/26 12:01:01", "participants": ["Anton","Simon"]}}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = '{"Review_1":{ "end":"2023/05/26 12:01:01", "participants": ["Anton","Simon"]}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             with self.assertRaises(ValueError):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
 
     def test_from_json_double_end(self):
-        fakeResponse = '{"Review_1":{ "end":"2023-05-26T12:01:01","end":"2023-05-26T09:01:01", "participants": ["Anton","Simon"]}}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = '{"Review_1":{ "end":"2023-05-26T12:01:01","end":"2023-05-26T09:01:01", "participants": ["Anton","Simon"]}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             with self.assertRaises(Exception):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
 
 
 class ModelParsFromJsonBz2(unittest.TestCase):
     def test_from_json_bz2(self):
-        fakeResponse = bz2.compress(b'{"Review_1":{"bound": "bounded", "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}')
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = bz2.compress(b'{"Review_1":{"bound": "bounded", "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}')
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             result = CommunicationNetwork.from_json("fakePath.json.bz2", name= "mockedOpen")
             self.assertEqual(result.participants('Review_1'),{'Anton','Simon'})
             self.assertEqual(result.timings('Review_1'), datetime.fromisoformat("2023-05-26T12:01:01"))
             self.assertEqual(result.name,'mockedOpen')
 
     def test_from_json_wrong_compress(self):
-        fakeResponse = b'{"Review_1":{"bound": "bounded", "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}'
-        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fakeResponse):
+        fake_response = b'{"Review_1":{"bound": "bounded", "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"], "start":"2023-05-26T09:01:01"}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             with self.assertRaises(Exception):
-                CommunicationNetwork.from_json("fakePath.json.bz2", name= "mockedOpen")          
+                CommunicationNetwork.from_json("fakePath.json.bz2", name= "mockedOpen")
 
 class ModelDataTest(unittest.TestCase):
     def test_model_with_data(self):
