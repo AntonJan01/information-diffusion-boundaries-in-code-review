@@ -26,13 +26,6 @@ jobs:
       
     - name: Generate coverage report
       run: |
-        pip install --upgrade pip
         pip install coverage
         coverage run -m unittest discover
         coverage xml -o coverage.xml
-
-    - name: Ignore intentional failures
-      run: |
-        sed -i '/self.assertEqual/s/^/#/' test_minimal_paths.py
-        sed -i '/self.assertNotEqual/s/^/#/' test_minimal_paths.py
-
