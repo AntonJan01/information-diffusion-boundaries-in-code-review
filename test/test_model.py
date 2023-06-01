@@ -68,9 +68,13 @@ class ModelTestBadContent(unittest.TestCase):
         with self.assertRaises(Exception):
             CommunicationNetwork({'h1': 'v1'}, { 'h1': 1})
 
-    def test_verifie_data_validation_of_vertice_with_empty_dict_item(self):
+    def test_verifie_data_validation_of_vertice_with_empty_set_item(self):
         with self.assertRaises(Exception):
             CommunicationNetwork({'h1': {}}, { 'h1': 1})
+
+    def test_verifie_data_validation_of_vertice_with_empty_list_item(self):
+        with self.assertRaises(Exception):
+            CommunicationNetwork({'h1': []}, { 'h1': 1})
 
     def test_verifie_data_validation_of_vertice_with_no_item(self):
         with self.assertRaises(AttributeError):
@@ -124,7 +128,7 @@ class ModelParsFromJson(unittest.TestCase):
     def test_from_json_missing_channel(self):
         fake_response = '{"end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"]}'
         with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
-            with self.assertRaises(Exception):
+            with self.assertRaises(TypeError):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
 
     def test_from_json_not_isoformat(self):
@@ -135,6 +139,12 @@ class ModelParsFromJson(unittest.TestCase):
 
     def test_from_json_double_end(self):
         fake_response = '{"Review_1":{ "end":"2023-05-26T12:01:01","end":"2023-05-26T09:01:01", "participants": ["Anton","Simon"]}}'
+        with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
+            with self.assertRaises(Exception):
+                CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
+
+    def test_from_json_double_participants(self):
+        fake_response = '{"Review_1":{ "end":"2023-05-26T12:01:01", "participants": ["Anton","Simon"], "participants": ["Donald","Axel"]}}'
         with mock.patch('simulation.model.Path.open', new_callable=mock.mock_open, read_data = fake_response):
             with self.assertRaises(Exception):
                 CommunicationNetwork.from_json("fakePath.json", name= "mockedOpen")
